@@ -1,0 +1,680 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "6eb4a434",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Total Even numbers in the list:  [30, 28, 22]\n",
+      "Total Odd numbers in the list:  [11, 41, 85, 7]\n"
+     ]
+    }
+   ],
+   "source": [
+    "\n",
+    "# 1.list of numbers\n",
+    "numberlist = [11, 30, 28, 41, 22, 85, 7]\n",
+    "\n",
+    "# print Even numbers in a list using Lambda function\n",
+    "\n",
+    "even_numbers = list(filter(lambda x: x % 2 == 0,numberlist))\n",
+    "print(\"Total Even numbers in the list: \", even_numbers)\n",
+    "\n",
+    "\n",
+    "# print Odd numbers in a list using Lambda function\n",
+    "\n",
+    "odd_numbers = list(filter(lambda x: x % 2 == 1,numberlist))\n",
+    "print(\"Total Odd numbers in the list: \", odd_numbers)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "56ddfc10",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "2.Write and run a Python program that asks the user to enter 8 integers (one at a time), and then prints out how many of those integers were even numbers. For example, if the user entered 19, 6, 9, 20, 13, 7, 6, and 1, then your program should print out 3 since 3 of those numbers were even."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "362924a6",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter an integer: 2\n",
+      "Enter an integer: 3\n",
+      "Enter an integer: 4\n",
+      "Enter an integer: 5\n",
+      "Enter an integer: 6\n",
+      "Enter an integer: 7\n",
+      "Enter an integer: 1\n",
+      "Enter an integer: 0\n",
+      "The number of even integers entered: 4\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Initialize a variable to count even numbers\n",
+    "even_count = 0\n",
+    "\n",
+    "# Ask the user to enter 8 integers one at a time\n",
+    "for i in range(8):\n",
+    "    num = int(input(\"Enter an integer: \"))\n",
+    "    \n",
+    "    # Check if the entered number is even\n",
+    "    if num % 2 == 0:\n",
+    "        even_count += 1\n",
+    "\n",
+    "# Print the count of even numbers\n",
+    "print(\"The number of even integers entered:\", even_count)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ad54f573",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "3.Write a python programn where you take any positive integer n, if n is even divide it by 2 to getn/2.\n",
+    "if n is odd multiply it by 3 and add 1 to obtain 3n+1.Repeat the process untill you reach 1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "c08e5e54",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter a positive integer: 2\n",
+      "2 1\n"
+     ]
+    }
+   ],
+   "source": [
+    "def collatz_sequence(n):\n",
+    "    while n != 1:\n",
+    "        print(n, end=' ')\n",
+    "        if n % 2 == 0:\n",
+    "            n = n // 2\n",
+    "        else:\n",
+    "            n = 3 * n + 1\n",
+    "    print(1)  # Print the final 1\n",
+    "\n",
+    "try:\n",
+    "    n = int(input(\"Enter a positive integer: \"))\n",
+    "    if n <= 0:\n",
+    "        print(\"Please enter a positive integer.\")\n",
+    "    else:\n",
+    "        collatz_sequence(n)\n",
+    "except ValueError:\n",
+    "    print(\"Invalid input. Please enter a positive integer.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d1139fd6",
+   "metadata": {},
+   "source": [
+    "4.Write a Python program to compute the sum of all the multiples of 3 Or 5 below 500"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "53f7c745",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The sum of multiples of 3 or 5 below 500 is: 57918\n"
+     ]
+    }
+   ],
+   "source": [
+    "total_sum = 0\n",
+    "\n",
+    "for number in range(1, 500):\n",
+    "    if number % 3 == 0 or number % 5 == 0:\n",
+    "        total_sum += number\n",
+    "\n",
+    "print(\"The sum of multiples of 3 or 5 below 500 is:\", total_sum)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "af843a39",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "5.To write a python program to find 'n' prime numbers from a list of given numbers"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "338dc2a0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter the number of prime numbers to find: 4\n",
+      "Enter a list of numbers separated by spaces: 5\n",
+      "The first 4 prime numbers from the list are: [5]\n"
+     ]
+    }
+   ],
+   "source": [
+    "def is_prime(num):\n",
+    "    if num <= 1:\n",
+    "        return False\n",
+    "    if num <= 3:\n",
+    "        return True\n",
+    "    if num % 2 == 0 or num % 3 == 0:\n",
+    "        return False\n",
+    "    i = 5\n",
+    "    while i * i <= num:\n",
+    "        if num % i == 0 or num % (i + 2) == 0:\n",
+    "            return False\n",
+    "        i += 6\n",
+    "    return True\n",
+    "\n",
+    "def find_primes_from_list(numbers, n):\n",
+    "    prime_numbers = []\n",
+    "    for num in numbers:\n",
+    "        if is_prime(num):\n",
+    "            prime_numbers.append(num)\n",
+    "            if len(prime_numbers) == n:\n",
+    "                break\n",
+    "    return prime_numbers\n",
+    "\n",
+    "try:\n",
+    "    n = int(input(\"Enter the number of prime numbers to find: \"))\n",
+    "    if n <= 0:\n",
+    "        print(\"Please enter a positive integer.\")\n",
+    "    else:\n",
+    "        numbers = [int(x) for x in input(\"Enter a list of numbers separated by spaces: \").split()]\n",
+    "        prime_numbers = find_primes_from_list(numbers, n)\n",
+    "        print(f\"The first {n} prime numbers from the list are: {prime_numbers}\")\n",
+    "except ValueError:\n",
+    "    print(\"Invalid input. Please enter a positive integer for 'n' and a list of numbers.\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fe0481fb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "6.Python program to compute matrix multiplication"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "54eef996",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[30, 24, 18]\n",
+      "[84, 69, 54]\n",
+      "[138, 114, 90]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Define two matrices A and B\n",
+    "A = [\n",
+    "    [1, 2, 3],\n",
+    "    [4, 5, 6],\n",
+    "    [7, 8, 9]\n",
+    "]\n",
+    "\n",
+    "B = [\n",
+    "    [9, 8, 7],\n",
+    "    [6, 5, 4],\n",
+    "    [3, 2, 1]\n",
+    "]\n",
+    "\n",
+    "# Initialize a result matrix C with zeros\n",
+    "C = [\n",
+    "    [0, 0, 0],\n",
+    "    [0, 0, 0],\n",
+    "    [0, 0, 0]\n",
+    "]\n",
+    "\n",
+    "# Perform matrix multiplication\n",
+    "for i in range(len(A)):\n",
+    "    for j in range(len(B[0])):\n",
+    "        for k in range(len(B)):\n",
+    "            C[i][j] += A[i][k] * B[k][j]\n",
+    "\n",
+    "# Print the result matrix C\n",
+    "for row in C:\n",
+    "    print(row)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a4016caf",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "7.Write a python function to count the number of vowels in a string."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "be72a826",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The number of vowels in 'Hello, World!' is 3.\n"
+     ]
+    }
+   ],
+   "source": [
+    "def count_vowels(string):\n",
+    "    # Convert the string to lowercase to handle both uppercase and lowercase vowels.\n",
+    "    string = string.lower()\n",
+    "    # Define a set of vowels.\n",
+    "    vowels = set(\"aeiou\")\n",
+    "    \n",
+    "    # Initialize a count to zero.\n",
+    "    count = 0\n",
+    "    \n",
+    "    # Iterate through the characters in the string.\n",
+    "    for char in string:\n",
+    "        # Check if the character is in the set of vowels.\n",
+    "        if char in vowels:\n",
+    "            count += 1\n",
+    "    \n",
+    "    return count\n",
+    "# Example usage:\n",
+    "input_string = \"Hello, World!\"\n",
+    "result = count_vowels(input_string)\n",
+    "print(f\"The number of vowels in '{input_string}' is {result}.\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "779712f8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "8. Function for finding factorial for the given number using a recursive function"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "e1f2cee0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "120\n"
+     ]
+    }
+   ],
+   "source": [
+    "def factorial(n):\n",
+    "    if n == 0:\n",
+    "        return 1\n",
+    "    else:\n",
+    "        return n * factorial(n-1)\n",
+    "result = factorial(5)\n",
+    "print(result)  # This will print 120, which is the factorial of 5\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "159ab521",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "9.Write python program for generating the fibonacci series using the function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "79158996",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter the number of Fibonacci terms to generate: 4\n",
+      "Fibonacci Series: [0, 1, 1, 2]\n"
+     ]
+    }
+   ],
+   "source": [
+    "def fibonacci_recursive(n):\n",
+    "    if n <= 0:\n",
+    "        return []\n",
+    "    elif n == 1:\n",
+    "        return [0]\n",
+    "    elif n == 2:\n",
+    "        return [0, 1]\n",
+    "    else:\n",
+    "        fib_series = fibonacci_recursive(n - 1)\n",
+    "        fib_series.append(fib_series[-1] + fib_series[-2])\n",
+    "        return fib_series\n",
+    "# Example usage:\n",
+    "num_terms = int(input(\"Enter the number of Fibonacci terms to generate: \"))\n",
+    "\n",
+    "if num_terms <= 0:\n",
+    "    print(\"Please enter a positive integer.\")\n",
+    "else:\n",
+    "    fibonacci_series = fibonacci_recursive(num_terms)\n",
+    "    print(\"Fibonacci Series:\", fibonacci_series)\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2c308514",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "10.Python program to display the given all the integers in reverse order using the function without an in built function"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "687c20a1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[5, 4, 3, 2, 1]\n"
+     ]
+    }
+   ],
+   "source": [
+    "def reverse_list(input_list):\n",
+    "    if len(input_list) == 0:\n",
+    "        return []\n",
+    "    else:\n",
+    "        return [input_list[-1]] + reverse_list(input_list[:-1])\n",
+    "\n",
+    "# Example usage:\n",
+    "input_numbers = [1, 2, 3, 4, 5]\n",
+    "reversed_numbers = reverse_list(input_numbers)\n",
+    "print(reversed_numbers)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "895b747d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "11.Write a python program to display all integers within the range 200-300 whose sum of digits is an even number."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "2bc32357",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Numbers in the range 200-300 with even digit sums: [200, 202, 204, 206, 208, 211, 213, 215, 217, 219, 220, 222, 224, 226, 228, 231, 233, 235, 237, 239, 240, 242, 244, 246, 248, 251, 253, 255, 257, 259, 260, 262, 264, 266, 268, 271, 273, 275, 277, 279, 280, 282, 284, 286, 288, 291, 293, 295, 297, 299]\n"
+     ]
+    }
+   ],
+   "source": [
+    "def sum_of_digits(n):\n",
+    "    # Calculate the sum of the digits of a number.\n",
+    "    digit_sum = 0\n",
+    "    while n > 0:\n",
+    "        digit_sum += n % 10\n",
+    "        n //= 10\n",
+    "    return digit_sum\n",
+    "\n",
+    "def find_numbers_with_even_digit_sum(start, end):\n",
+    "    # Iterate through the range and find numbers with even digit sums.\n",
+    "    numbers_with_even_sum = []\n",
+    "    for num in range(start, end + 1):\n",
+    "        if sum_of_digits(num) % 2 == 0:\n",
+    "            numbers_with_even_sum.append(num)\n",
+    "    return numbers_with_even_sum\n",
+    "\n",
+    "# Example usage:\n",
+    "start_range = 200\n",
+    "end_range = 300\n",
+    "\n",
+    "even_sum_numbers = find_numbers_with_even_digit_sum(start_range, end_range)\n",
+    "\n",
+    "print(\"Numbers in the range 200-300 with even digit sums:\", even_sum_numbers)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fac986f4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "12.Python function to find the number of digits and sum of digits for a given number"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "61e5f2dd",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of digits: 5\n",
+      "Sum of digits: 15\n"
+     ]
+    }
+   ],
+   "source": [
+    "def count_digits_and_sum(number):\n",
+    "    # Convert the number to a string to count its digits and iterate through them\n",
+    "    num_str = str(number)\n",
+    "    \n",
+    "    # Calculate the number of digits\n",
+    "    num_digits = len(num_str)\n",
+    "    \n",
+    "    # Calculate the sum of digits\n",
+    "    digit_sum = sum(int(digit) for digit in num_str)\n",
+    "    \n",
+    "    return num_digits, digit_sum\n",
+    "\n",
+    "# Example usage:\n",
+    "num = 12345\n",
+    "num_digits, digit_sum = count_digits_and_sum(num)\n",
+    "print(\"Number of digits:\", num_digits)\n",
+    "print(\"Sum of digits:\", digit_sum)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4a8219f6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "13.Write functions called is_sorted that takes a list as a parameter and returns True if the list is sorted in ascending orderand False otherwise and has_duplicates that takes a list and returns Trueif there is any element that appears more than once.It should not modify the original list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "9d2d0c4b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "is_sorted(my_list): True\n",
+      "has_duplicates(my_list_with_duplicates): True\n"
+     ]
+    }
+   ],
+   "source": [
+    "def is_sorted(arr):\n",
+    "    # Check if the list is sorted in ascending order.\n",
+    "    return all(arr[i] <= arr[i + 1] for i in range(len(arr) - 1))\n",
+    "\n",
+    "def has_duplicates(arr):\n",
+    "    # Create a set to store unique elements.\n",
+    "    seen = set()\n",
+    "    \n",
+    "    for element in arr:\n",
+    "        if element in seen:\n",
+    "            return True\n",
+    "        seen.add(element)\n",
+    "    \n",
+    "    return False\n",
+    "\n",
+    "# Example usage:\n",
+    "my_list = [1, 2, 3, 4, 5]\n",
+    "print(\"is_sorted(my_list):\", is_sorted(my_list))  # True\n",
+    "\n",
+    "my_list_with_duplicates = [1, 2, 2, 3, 4]\n",
+    "print(\"has_duplicates(my_list_with_duplicates):\", has_duplicates(my_list_with_duplicates))  # True"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0dec7c7f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "14.Write functions called nested_sum that takes a list of integers and adds up the elements from all the nested listsand cumsum that takes a list of numbers and returns the cummulative sum;that is a new list where the ith element is the sum of the first i + 1 elements from the original list"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "6ddfe6a7",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "nested_sum(nested_list): 36\n",
+      "cumsum(numbers): [1, 3, 6, 10, 15]\n"
+     ]
+    }
+   ],
+   "source": [
+    "def nested_sum(nested_list):\n",
+    "    # Initialize a variable to store the sum.\n",
+    "    total = 0\n",
+    "    \n",
+    "    # Iterate through the nested lists.\n",
+    "    for sublist in nested_list:\n",
+    "        # Iterate through the elements in each sublist.\n",
+    "        for element in sublist:\n",
+    "            if isinstance(element, int):\n",
+    "                total += element  # Add the integer elements to the total\n",
+    "    \n",
+    "    return total\n",
+    "\n",
+    "def cumsum(numbers):\n",
+    "    # Initialize a variable to store the cumulative sum.\n",
+    "    cumulative_sum = 0\n",
+    "    cumsum_list = []\n",
+    "    # Iterate through the numbers and calculate the cumulative sum.\n",
+    "    for num in numbers:\n",
+    "        cumulative_sum += num\n",
+    "        cumsum_list.append(cumulative_sum)\n",
+    "    \n",
+    "    return cumsum_list\n",
+    "\n",
+    "# Example usage:\n",
+    "nested_list = [[1, 2, 3], [4, 5], [6, 7, 8]]\n",
+    "print(\"nested_sum(nested_list):\", nested_sum(nested_list))  # 36\n",
+    "\n",
+    "numbers = [1, 2, 3, 4, 5]\n",
+    "print(\"cumsum(numbers):\", cumsum(numbers))  # [1, 3, 6, 10, 15]\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c2833868",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
