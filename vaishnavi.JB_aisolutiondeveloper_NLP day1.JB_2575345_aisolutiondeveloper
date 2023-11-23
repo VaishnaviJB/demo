@@ -1,0 +1,742 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "732db1a9",
+   "metadata": {},
+   "source": [
+    "# Text preprocessing is a crucial step in natural language processing (NLP) that involves cleaning and transforming raw text data into a format that is suitable for analysis. The purpose of text preprocessing is to enhance the quality of the data, reduce noise, and make it more amenable to various NLP tasks. Several reasons highlight the importance of text preprocessing before analysis:"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dc29526b",
+   "metadata": {},
+   "source": [
+    "# Text preprocessing is a crucial step in natural language processing (NLP) that involves cleaning and transforming raw text data into a format that is suitable for analysis. The purpose of text preprocessing is to enhance the quality of the data, reduce noise, and make it more amenable to various NLP tasks. Several reasons highlight the importance of text preprocessing before analysis:\n",
+    "\n",
+    "Noise Reduction:\n",
+    "\n",
+    "Raw text data often contains noise, such as special characters, punctuation, and irrelevant symbols. Preprocessing helps remove these elements, reducing interference in subsequent analyses.\n",
+    "Normalization:\n",
+    "\n",
+    "Text data may have variations in case, spelling, or representation of words. Normalization ensures consistency by converting text to a standard format (e.g., converting all text to lowercase) and addressing issues like stemming and lemmatization.\n",
+    "Tokenization:\n",
+    "\n",
+    "Tokenization involves breaking down text into smaller units, such as words or phrases (tokens). This step is crucial for many NLP tasks, as it provides the basic units for analysis.\n",
+    "Stopword Removal:\n",
+    "\n",
+    "Stopwords are common words (e.g., \"the,\" \"and,\" \"is\") that often don't carry much meaning and can be removed to focus on more meaningful content. Removing stopwords reduces the dimensionality of the data and can improve the efficiency of analysis.\n",
+    "Removing HTML Tags and Special Characters:\n",
+    "\n",
+    "In web-based applications, text data may contain HTML tags or special characters. Removing these elements is essential for extracting the actual content of the text.\n",
+    "Handling Contractions and Abbreviations:\n",
+    "\n",
+    "Preprocessing helps address contractions (e.g., \"can't\" to \"cannot\") and abbreviations, ensuring uniformity in the representation of words.\n",
+    "Handling Missing Data:\n",
+    "\n",
+    "Text data may have missing values or incomplete sentences. Text preprocessing can involve handling missing data to ensure the quality and completeness of the dataset.\n",
+    "Vectorization:\n",
+    "\n",
+    "Many NLP algorithms and models require numerical input. Text preprocessing involves converting text into numerical representations, such as word embeddings or bag-of-words vectors.\n",
+    "Feature Engineering:\n",
+    "\n",
+    "Additional features, such as sentiment scores, can be derived from text during preprocessing, providing valuable information for analysis.\n",
+    "Improved Model Performance:\n",
+    "\n",
+    "Preprocessing contributes to the overall performance of NLP models. A well-preprocessed dataset ensures that the models can focus on extracting meaningful patterns from the text.\n",
+    "In summary, text preprocessing in NLP is essential for cleaning, organizing, and transforming raw text data into a format that is suitable for analysis. It enhances the quality of the data and sets the foundation for effective and accurate natural language processing tasks.\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f0f9be10",
+   "metadata": {},
+   "source": [
+    "# Describe tokenization in NLP and explain its significance in text processing.give code\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1bfbc4c9",
+   "metadata": {},
+   "source": [
+    "# Tokenization is the process of breaking down a text into smaller units, such as words, phrases, or sentences. These smaller units are called tokens. Tokenization is a fundamental step in natural language processing (NLP) and plays a crucial role in various NLP tasks. The significance of tokenization in text processing lies in its ability to convert unstructured text into a structured format, making it easier to analyze and extract meaningful information.\n",
+    "\n",
+    "Here's a simple example of tokenization in Python using the Natural Language Toolkit (nltk) library:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "57989237",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import nltk\n",
+    "from nltk.tokenize import word_tokenize, sent_tokenize\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Tokenization is a key step in NLP. It breaks down text into smaller units like words or sentences.\"\n",
+    "\n",
+    "# Tokenize into words\n",
+    "tokens_words = word_tokenize(text)\n",
+    "print(\"Word tokens:\", tokens_words)\n",
+    "\n",
+    "# Tokenize into sentences\n",
+    "tokens_sentences = sent_tokenize(text)\n",
+    "print(\"Sentence tokens:\", tokens_sentences)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d702eb3b",
+   "metadata": {},
+   "source": [
+    "Significance of Tokenization in Text Processing:\n",
+    "\n",
+    "Text Analysis:\n",
+    "\n",
+    "Tokenization provides the basic units (tokens) for further analysis. It allows you to examine the frequency of words, identify patterns, and gain insights into the structure of the text.\n",
+    "Feature Extraction:\n",
+    "\n",
+    "In machine learning, tokenization is a crucial step in feature extraction. It converts text into a format that can be used as input for machine learning models, such as bag-of-words or word embeddings.\n",
+    "Text Classification:\n",
+    "\n",
+    "Tokenization is essential for tasks like text classification, where the presence or absence of specific words (tokens) contributes to the classification of the text into predefined categories.\n",
+    "Search Engines:\n",
+    "\n",
+    "In search engines, tokenization is used to index and retrieve documents efficiently. Each token becomes a key term that facilitates searching and ranking.\n",
+    "Named Entity Recognition (NER):\n",
+    "\n",
+    "NER tasks involve identifying and classifying entities (e.g., names, locations) in text. Tokenization helps in breaking down the text into units for accurate entity recognition.\n",
+    "Text Summarization:\n",
+    "\n",
+    "Tokenization aids in identifying key phrases and sentences, making it easier to generate concise summaries of longer texts.\n",
+    "Language Modeling:\n",
+    "\n",
+    "Tokenization is a crucial step in building language models, where sequences of tokens are used to predict the next word in a sentence.\n",
+    "Information Retrieval:\n",
+    "\n",
+    "Tokenization facilitates the retrieval of relevant information by breaking down text into units that can be matched with user queries.\n",
+    "Overall, tokenization is a foundational step in NLP that enables the conversion of raw text data into a format suitable for analysis, feature extraction, and various natural language processing tasks."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "f3691fef",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[nltk_data] Downloading package punkt to\n",
+      "[nltk_data]     C:\\Users\\vaish\\AppData\\Roaming\\nltk_data...\n",
+      "[nltk_data]   Unzipping tokenizers\\punkt.zip.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Word tokens: ['Tokenization', 'is', 'a', 'key', 'step', 'in', 'NLP', '.', 'It', 'breaks', 'down', 'text', 'into', 'smaller', 'units', 'like', 'words', 'or', 'sentences', '.']\n",
+      "Sentence tokens: ['Tokenization is a key step in NLP.', 'It breaks down text into smaller units like words or sentences.']\n"
+     ]
+    }
+   ],
+   "source": [
+    "import nltk\n",
+    "\n",
+    "# Download the Punkt tokenizer model for English\n",
+    "nltk.download('punkt')\n",
+    "\n",
+    "# Now you can proceed with your tokenization code\n",
+    "from nltk.tokenize import word_tokenize, sent_tokenize\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Tokenization is a key step in NLP. It breaks down text into smaller units like words or sentences.\"\n",
+    "\n",
+    "# Tokenize into words\n",
+    "tokens_words = word_tokenize(text)\n",
+    "print(\"Word tokens:\", tokens_words)\n",
+    "\n",
+    "# Tokenize into sentences\n",
+    "tokens_sentences = sent_tokenize(text)\n",
+    "print(\"Sentence tokens:\", tokens_sentences)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "51c0fdb7",
+   "metadata": {},
+   "source": [
+    "# What are the differences between stemming and lemmatization in NLP? When would you \n",
+    "choose one over the other?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "a7ea992b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Stemmed words: ['stem', 'is', 'a', 'techniqu', 'use', 'in', 'natur', 'languag', 'process', '.', 'it', 'simplifi', 'word', 'to', 'their', 'root', 'form', '.']\n"
+     ]
+    }
+   ],
+   "source": [
+    "from nltk.stem import PorterStemmer\n",
+    "from nltk.tokenize import word_tokenize\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Stemming is a technique used in natural language processing. It simplifies words to their root form.\"\n",
+    "\n",
+    "# Tokenize the text\n",
+    "tokens = word_tokenize(text)\n",
+    "\n",
+    "# Create a PorterStemmer\n",
+    "porter_stemmer = PorterStemmer()\n",
+    "\n",
+    "# Apply stemming to each token\n",
+    "stemmed_words = [porter_stemmer.stem(word) for word in tokens]\n",
+    "\n",
+    "print(\"Stemmed words:\", stemmed_words)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "470e2e3b",
+   "metadata": {},
+   "source": [
+    "# Lemmatization:\n",
+    "Lemmatization, on the other hand, involves reducing words to their base or dictionary form (lemma). The lemmatized form is a valid word, making it more interpretable than stemming.\n",
+    "\n",
+    "Here's an example of lemmatization using the WordNet Lemmatizer in the NLTK library:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5dc171e1",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4a76e369",
+   "metadata": {},
+   "source": [
+    "Differences and When to Choose:\n",
+    "Output Form:\n",
+    "\n",
+    "Stemming may result in non-real words (e.g., \"simplifi\" from \"simplifies\").\n",
+    "Lemmatization produces valid words that can be found in the dictionary (e.g., \"reduce\" from \"reduces\").\n",
+    "Use Case:\n",
+    "\n",
+    "Stemming is often used in information retrieval or search engines where the goal is to match similar words.\n",
+    "Lemmatization is suitable when a more meaningful representation of words is required, such as in text summarization or sentiment analysis.\n",
+    "Resource Dependency:\n",
+    "\n",
+    "Lemmatization typically requires access to a lexicon or dictionary (like WordNet), making it slower than stemming.\n",
+    "Size of Corpus:\n",
+    "\n",
+    "Stemming might be faster and sufficient for large corpora, while lemmatization may be more accurate but slower.\n",
+    "In summary, choose stemming when speed and simplicity are more critical, and lemmatization when you need a more meaningful representation of words, even if it comes at the cost of computational overhead. The choice often depends on the specific requirements and characteristics of the NLP task at hand.\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bff15962",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import nltk\n",
+    "\n",
+    "# Download the WordNet data\n",
+    "nltk.download('wordnet')\n",
+    "\n",
+    "from nltk.stem import WordNetLemmatizer\n",
+    "from nltk.tokenize import word_tokenize\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Lemmatization is a technique used in natural language processing. It reduces words to their base or dictionary form.\"\n",
+    "\n",
+    "# Tokenize the text\n",
+    "tokens = word_tokenize(text)\n",
+    "\n",
+    "# Create a WordNetLemmatizer\n",
+    "lemmatizer = WordNetLemmatizer()\n",
+    "\n",
+    "# Apply lemmatization to each token\n",
+    "lemmatized_words = [lemmatizer.lemmatize(word) for word in tokens]\n",
+    "\n",
+    "print(\"Lemmatized words:\", lemmatized_words)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a5261c10",
+   "metadata": {},
+   "source": [
+    "# . Explain the concept of stop words and their role in text preprocessing. How do they impact \n",
+    "NLP tasks? give code"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6edcd63a",
+   "metadata": {},
+   "source": [
+    "Stop words are common words that are often filtered out during text preprocessing in natural language processing (NLP) because they are considered to be of little value in terms of information content. These words are very common across all languages and don't carry significant meaning by themselves. Examples of stop words include \"the,\" \"and,\" \"is,\" \"in,\" etc.\n",
+    "\n",
+    "The role of stop words in text preprocessing includes the following aspects:\n",
+    "\n",
+    "Noise Reduction:\n",
+    "\n",
+    "Stop words are frequently occurring words that don't contribute much to the meaning of a document. Removing them helps reduce noise in the text data, making it easier to focus on the more meaningful words.\n",
+    "Dimensionality Reduction:\n",
+    "\n",
+    "Removing stop words reduces the number of unique words in a document, which helps in reducing the dimensionality of the data. This can be beneficial for computational efficiency and resource usage.\n",
+    "Focus on Content Words:\n",
+    "\n",
+    "By eliminating common stop words, the remaining words in the text are often more content-rich and contribute more meaning to the document. This is particularly useful in tasks like information retrieval and text analysis.\n",
+    "Improved Performance in Certain NLP Tasks:\n",
+    "\n",
+    "In some NLP tasks, such as sentiment analysis or document classification, removing stop words can lead to improved model performance. Stop words may not carry sentiment or topic-specific information, so excluding them can enhance the model's ability to capture relevant patterns.\n",
+    "Here's an example of how to remove stop words using the NLTK library in Python:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5be3956b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import nltk\n",
+    "from nltk.corpus import stopwords\n",
+    "from nltk.tokenize import word_tokenize\n",
+    "\n",
+    "# Download NLTK stop words data\n",
+    "nltk.download('stopwords')\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Stop words are common words that are often filtered out during text preprocessing in natural language processing.\"\n",
+    "\n",
+    "# Tokenize the text\n",
+    "tokens = word_tokenize(text)\n",
+    "\n",
+    "# Remove stop words\n",
+    "stop_words = set(stopwords.words('english'))\n",
+    "filtered_tokens = [word for word in tokens if word.lower() not in stop_words]\n",
+    "\n",
+    "print(\"Original tokens:\", tokens)\n",
+    "print(\"Filtered tokens without stop words:\", filtered_tokens)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9038e75f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import nltk\n",
+    "from nltk.corpus import stopwords\n",
+    "from nltk.tokenize import word_tokenize\n",
+    "\n",
+    "# Download NLTK stop words data\n",
+    "nltk.download('stopwords')\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Stop words are common words that are often filtered out during text preprocessing in natural language processing.\"\n",
+    "\n",
+    "# Tokenize the text\n",
+    "tokens = word_tokenize(text)\n",
+    "\n",
+    "# Remove stop words\n",
+    "stop_words = set(stopwords.words('english'))\n",
+    "filtered_tokens = [word for word in tokens if word.lower() not in stop_words]\n",
+    "\n",
+    "print(\"Original tokens:\", tokens)\n",
+    "print(\"Filtered tokens without stop words:\", filtered_tokens)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "41d83751",
+   "metadata": {},
+   "source": [
+    "Removing punctuation is an essential step in text preprocessing in natural language processing (NLP). Punctuation marks, such as periods, commas, and question marks, don't usually contribute much to the semantics of the text and can introduce noise or interfere with certain NLP tasks. The process of removing punctuation helps clean the text data and facilitates more effective analysis. Here are some benefits:\n",
+    "\n",
+    "Noise Reduction: Punctuation marks often do not carry significant meaning in isolation. Removing them reduces unnecessary noise and focuses on the actual content of the text.\n",
+    "\n",
+    "Consistent Tokenization: Punctuation can affect the tokenization process. Removing punctuation ensures a more consistent and reliable tokenization, as words are isolated without unwanted characters.\n",
+    "\n",
+    "Efficient Analysis: Punctuation marks may not be relevant in many NLP tasks, such as sentiment analysis or topic modeling. By removing them, the analysis can be more focused on meaningful words.\n",
+    "\n",
+    "Improved Model Performance: In some cases, removing punctuation can lead to improved performance in machine learning models. Punctuation marks may not provide useful features for certain tasks and excluding them can help models concentrate on more informative features.\n",
+    "\n",
+    "Here's an example of how to remove punctuation from a text using Python:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "1667572d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Original text: Removing punctuation is crucial for effective text preprocessing in NLP! It helps clean the data and facilitates analysis.\n",
+      "Text without punctuation: Removing punctuation is crucial for effective text preprocessing in NLP It helps clean the data and facilitates analysis\n"
+     ]
+    }
+   ],
+   "source": [
+    "import string\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Removing punctuation is crucial for effective text preprocessing in NLP! It helps clean the data and facilitates analysis.\"\n",
+    "\n",
+    "# Remove punctuation\n",
+    "clean_text = text.translate(str.maketrans(\"\", \"\", string.punctuation))\n",
+    "\n",
+    "print(\"Original text:\", text)\n",
+    "print(\"Text without punctuation:\", clean_text)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fc78986d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    " Discuss the importance of lowercase conversion in text preprocessing. Why is it a \n",
+    "common step in NLP tasks?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "edffb88f",
+   "metadata": {},
+   "source": [
+    "Consistency in Text Matching:\n",
+    "\n",
+    "Converting text to lowercase ensures consistency in text matching. Without case consistency, words like \"Apple\" and \"apple\" would be treated as different, potentially leading to errors in analyses and tasks such as counting word frequencies.\n",
+    "Standardization:\n",
+    "\n",
+    "Lowercasing helps standardize the text data. It ensures that all words are represented in a consistent format, making it easier to apply further processing steps consistently.\n",
+    "Reduced Vocabulary Size:\n",
+    "\n",
+    "Lowercasing reduces the effective vocabulary size. Without lowercasing, words at the beginning of sentences (which are capitalized) and those within sentences would be treated as different tokens, increasing the complexity of the analysis.\n",
+    "Improved Text Matching and Retrieval:\n",
+    "\n",
+    "Lowercasing is essential for tasks like information retrieval and search engines. When users enter queries, converting both the query and the document content to lowercase ensures that the search is case-insensitive.\n",
+    "Efficient Tokenization:\n",
+    "\n",
+    "Lowercasing simplifies tokenization. When words are consistently in lowercase, tokenization becomes more straightforward as there is no need to account for different case variations.\n",
+    "Improved Model Performance:\n",
+    "\n",
+    "In many NLP models, case differences might not contribute significantly to the meaning of the text. Lowercasing can help improve the performance of models by focusing on the semantic content of words."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "5ab4c44d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Original text: Converting text to lowercase is important in NLP tasks. It ensures consistency in text processing.\n",
+      "Text in lowercase: converting text to lowercase is important in nlp tasks. it ensures consistency in text processing.\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Sample text\n",
+    "text = \"Converting text to lowercase is important in NLP tasks. It ensures consistency in text processing.\"\n",
+    "\n",
+    "# Convert text to lowercase\n",
+    "lowercased_text = text.lower()\n",
+    "\n",
+    "print(\"Original text:\", text)\n",
+    "print(\"Text in lowercase:\", lowercased_text)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d51c2150",
+   "metadata": {},
+   "source": [
+    "# .Explain the term \"vectorization\" concerning text data. How does techniques like \n",
+    "CountVectorizer contribute to text preprocessing in NLP?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "52cab372",
+   "metadata": {},
+   "source": [
+    "Vectorization in the context of text data refers to the process of converting textual data into numerical vectors that can be used as input for machine learning models. In natural language processing (NLP), vectorization is a crucial step, as most machine learning algorithms and models require numerical input. Vectorization methods transform words, phrases, or entire documents into numerical representations, allowing the algorithms to operate on the data.\n",
+    "\n",
+    "One common technique for vectorization is the CountVectorizer, which represents a document as a vector of word frequencies. It builds a vocabulary from all the words in the text and then counts the occurrences of each word for each document in the corpus.\n",
+    "\n",
+    "Here's an explanation of how CountVectorizer contributes to text preprocessing in NLP:\n",
+    "\n",
+    "Word Frequency Representation:\n",
+    "\n",
+    "CountVectorizer converts each document in the corpus into a vector, where each element represents the frequency of a particular word in that document. This representation captures the distribution of words and their frequencies in the text.\n",
+    "Sparse Matrix Representation:\n",
+    "\n",
+    "The result of CountVectorizer is often a sparse matrix, where most entries are zero. This sparse matrix efficiently represents the text data, saving memory and computational resources.\n",
+    "Normalization:\n",
+    "\n",
+    "CountVectorizer can be configured to normalize the word frequencies, taking into account the length of the documents. This is useful for comparing documents of different lengths.\n",
+    "Vocabulary Size Reduction:\n",
+    "\n",
+    "By setting parameters like maximum and minimum document frequency, CountVectorizer allows for the reduction of the vocabulary size. This can help remove very common or very rare words that may not contribute much to the analysis.\n",
+    "Compatibility with Machine Learning Models:\n",
+    "\n",
+    "The numerical representation produced by CountVectorizer is compatible with a wide range of machine learning models, such as linear models, decision trees, and support vector machines."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "f0b5f636",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Feature names: ['and' 'document' 'first' 'is' 'one' 'second' 'the' 'third' 'this']\n",
+      "Vectorized matrix:\n",
+      "[[0 1 1 1 0 0 1 0 1]\n",
+      " [0 2 0 1 0 1 1 0 1]\n",
+      " [1 0 0 1 1 0 1 1 1]\n",
+      " [0 1 1 1 0 0 1 0 1]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "from sklearn.feature_extraction.text import CountVectorizer\n",
+    "\n",
+    "# Sample text data\n",
+    "corpus = [\n",
+    "    \"This is the first document.\",\n",
+    "    \"This document is the second document.\",\n",
+    "    \"And this is the third one.\",\n",
+    "    \"Is this the first document?\",\n",
+    "]\n",
+    "\n",
+    "# Create a CountVectorizer instance\n",
+    "vectorizer = CountVectorizer()\n",
+    "\n",
+    "# Fit and transform the text data\n",
+    "X = vectorizer.fit_transform(corpus)\n",
+    "\n",
+    "# Get the feature names (words in the vocabulary)\n",
+    "feature_names = vectorizer.get_feature_names_out()\n",
+    "\n",
+    "# Convert the sparse matrix to a dense array for better visualization\n",
+    "dense_array = X.toarray()\n",
+    "\n",
+    "# Display the feature names and the resulting matrix\n",
+    "print(\"Feature names:\", feature_names)\n",
+    "print(\"Vectorized matrix:\")\n",
+    "print(dense_array)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a06d77bf",
+   "metadata": {},
+   "source": [
+    "# .Describe the concept of normalization in NLP. Provide examples of normalization \n",
+    "techniques used in text preprocessing."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f0fb0e43",
+   "metadata": {},
+   "source": [
+    "In the context of natural language processing (NLP), normalization refers to the process of standardizing and transforming text data to a common format. The goal is to make the text consistent, reduce variations, and facilitate more meaningful comparisons. Normalization techniques are applied to ensure that similar words or phrases are represented in the same way, making it easier for algorithms to identify patterns and extract meaningful information from the text.\n",
+    "\n",
+    "Here are some common normalization techniques used in text preprocessing:\n",
+    "\n",
+    "Lowercasing:\n",
+    "\n",
+    "Converting all characters in the text to lowercase. This ensures case consistency and simplifies further processing.\n",
+    "Stemming:\n",
+    "\n",
+    "Reducing words to their root or base form by removing prefixes or suffixes. For example, \"running\" becomes \"run.\"\n",
+    "Lemmatization:\n",
+    "\n",
+    "Similar to stemming but involves reducing words to their base or dictionary form (lemma). For example, \"better\" becomes \"good.\"\n",
+    "Removing Accents/Diacritics:\n",
+    "\n",
+    "Replacing accented characters with their non-accented counterparts. For example, converting \"résumé\" to \"resume.\"\n",
+    "Removing Special Characters and Punctuation:\n",
+    "\n",
+    "Eliminating non-alphanumeric characters and punctuation marks from the text.\n",
+    "Handling Numbers:\n",
+    "\n",
+    "Standardizing the representation of numbers. For example, converting \"3.14\" to \"3.1416\" or replacing numbers with a generic token like \"<NUM>\".\n",
+    "Removing Stopwords:\n",
+    "\n",
+    "Eliminating common words that do not carry much meaning, such as \"the,\" \"and,\" \"is.\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ce9fff43",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import re\n",
+    "from nltk.tokenize import word_tokenize\n",
+    "from nltk.corpus import stopwords\n",
+    "from nltk.stem import PorterStemmer, WordNetLemmatizer\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Normalization is a crucial step in NLP. It involves converting text to lowercase, removing punctuation, and handling numbers.\"\n",
+    "\n",
+    "# Tokenize the text\n",
+    "tokens = word_tokenize(text)\n",
+    "\n",
+    "# Lowercasing\n",
+    "lowercased_tokens = [token.lower() for token in tokens]\n",
+    "\n",
+    "# Removing punctuation and special characters\n",
+    "cleaned_tokens = [re.sub(r'[^\\w\\s]', '', token) for token in lowercased_tokens]\n",
+    "\n",
+    "# Removing stopwords\n",
+    "stop_words = set(stopwords.words('english'))\n",
+    "filtered_tokens = [token for token in cleaned_tokens if token not in stop_words]\n",
+    "\n",
+    "# Stemming\n",
+    "porter_stemmer = PorterStemmer()\n",
+    "stemmed_tokens = [porter_stemmer.stem(token) for token in filtered_tokens]\n",
+    "\n",
+    "# Lemmatization\n",
+    "lemmatizer = WordNetLemmatizer()\n",
+    "lemmatized_tokens = [lemmatizer.lemmatize(token) for token in filtered_tokens]\n",
+    "\n",
+    "# Display the results\n",
+    "print(\"Original text:\", text)\n",
+    "print(\"Normalized tokens:\", lemmatized_tokens)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2bd78abf",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import re\n",
+    "from nltk.tokenize import word_tokenize\n",
+    "from nltk.corpus import stopwords\n",
+    "from nltk.stem import PorterStemmer, WordNetLemmatizer\n",
+    "\n",
+    "# Sample text\n",
+    "text = \"Normalization is a crucial step in NLP. It involves converting text to lowercase, removing punctuation, and handling numbers.\"\n",
+    "\n",
+    "# Tokenize the text\n",
+    "tokens = word_tokenize(text)\n",
+    "\n",
+    "# Lowercasing\n",
+    "lowercased_tokens = [token.lower() for token in tokens]\n",
+    "\n",
+    "# Removing punctuation and special characters\n",
+    "cleaned_tokens = [re.sub(r'[^\\w\\s]', '', token) for token in lowercased_tokens]\n",
+    "\n",
+    "# Removing stopwords\n",
+    "stop_words = set(stopwords.words('english'))\n",
+    "filtered_tokens = [token for token in cleaned_tokens if token not in stop_words]\n",
+    "\n",
+    "# Stemming\n",
+    "porter_stemmer = PorterStemmer()\n",
+    "stemmed_tokens = [porter_stemmer.stem(token) for token in filtered_tokens]\n",
+    "\n",
+    "# Lemmatization\n",
+    "lemmatizer = WordNetLemmatizer()\n",
+    "lemmatized_tokens = [lemmatizer.lemmatize(token) for token in filtered_tokens]\n",
+    "\n",
+    "# Display the results\n",
+    "print(\"Original text:\", text)\n",
+    "print(\"Normalized tokens:\", lemmatized_tokens)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e3828854",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import nltk\n",
+    "\n",
+    "# Uncomment the line below and run it to download the stopwords resource\n",
+    "# nltk.download('stopwords')\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3266b119",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5de883d4",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
