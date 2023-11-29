@@ -1,0 +1,754 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "f8657788",
+   "metadata": {},
+   "source": [
+    "# Build a Question answering model with Transformers from huggingface."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "b3556658",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: transformers in f:\\users\\vaish\\anaconda3\\lib\\site-packages (4.32.1)\n",
+      "Requirement already satisfied: filelock in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (3.9.0)\n",
+      "Requirement already satisfied: huggingface-hub<1.0,>=0.15.1 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (0.15.1)\n",
+      "Requirement already satisfied: numpy>=1.17 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (1.26.2)\n",
+      "Requirement already satisfied: packaging>=20.0 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (23.1)\n",
+      "Requirement already satisfied: pyyaml>=5.1 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (6.0)\n",
+      "Requirement already satisfied: regex!=2019.12.17 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (2022.7.9)\n",
+      "Requirement already satisfied: requests in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (2.31.0)\n",
+      "Requirement already satisfied: tokenizers!=0.11.3,<0.14,>=0.11.1 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (0.13.2)\n",
+      "Requirement already satisfied: safetensors>=0.3.1 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (0.3.2)\n",
+      "Requirement already satisfied: tqdm>=4.27 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (4.65.0)\n",
+      "Requirement already satisfied: fsspec in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from huggingface-hub<1.0,>=0.15.1->transformers) (2023.4.0)\n",
+      "Requirement already satisfied: typing-extensions>=3.7.4.3 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from huggingface-hub<1.0,>=0.15.1->transformers) (4.7.1)\n",
+      "Requirement already satisfied: colorama in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from tqdm>=4.27->transformers) (0.4.6)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from requests->transformers) (2.0.4)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from requests->transformers) (3.4)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from requests->transformers) (1.26.16)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from requests->transformers) (2023.7.22)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install transformers\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "22d23206",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "WARNING:tensorflow:From F:\\Users\\vaish\\anaconda3\\Lib\\site-packages\\keras\\src\\losses.py:2976: The name tf.losses.sparse_softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.sparse_softmax_cross_entropy instead.\n",
+      "\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "No model was supplied, defaulted to distilbert-base-cased-distilled-squad and revision 626af31 (https://huggingface.co/distilbert-base-cased-distilled-squad).\n",
+      "Using a pipeline without specifying a model name and revision in production is not recommended.\n"
+     ]
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "92c6bcbc0805434b9c9a2e36e32e0136",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Downloading config.json:   0%|          | 0.00/473 [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "F:\\Users\\vaish\\anaconda3\\Lib\\site-packages\\huggingface_hub\\file_download.py:133: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\\Users\\vaish\\.cache\\huggingface\\hub. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.\n",
+      "To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to see activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development\n",
+      "  warnings.warn(message)\n"
+     ]
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "80f1490e3f484a43929694ed980b1600",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Downloading model.safetensors:   0%|          | 0.00/261M [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "4fe4c115729940d49e3e6260ff1c70fc",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Downloading tokenizer_config.json:   0%|          | 0.00/29.0 [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "97eb905bddbe49a69b1fdf00782473af",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Downloading vocab.txt:   0%|          | 0.00/213k [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "c5fd074760134c9cb0ba709551adbd89",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Downloading tokenizer.json:   0%|          | 0.00/436k [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Question: What is Hugging Face?\n",
+      "Answer: a great platform for Natural Language Processing\n",
+      "Confidence: 0.6561630368232727\n"
+     ]
+    }
+   ],
+   "source": [
+    "from transformers import pipeline\n",
+    "\n",
+    "# Load the question answering pipeline\n",
+    "qa_pipeline = pipeline('question-answering')\n",
+    "\n",
+    "# Provide context and ask a question\n",
+    "context = \"Hugging Face is a great platform for Natural Language Processing.\"\n",
+    "question = \"What is Hugging Face?\"\n",
+    "\n",
+    "# Get the answer\n",
+    "answer = qa_pipeline(question=question, context=context)\n",
+    "\n",
+    "# Print the answer\n",
+    "print(f\"Question: {question}\")\n",
+    "print(f\"Answer: {answer['answer']}\")\n",
+    "print(f\"Confidence: {answer['score']}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8881f298",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ac17d079",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from transformers import pipeline\n",
+    "\n",
+    "# Load the translation pipeline\n",
+    "translation_pipeline = pipeline('translation', model='Helsinki-NLP/opus-mt-en-fr')\n",
+    "\n",
+    "# Provide the text to translate\n",
+    "text_to_translate = \"Hello, how are you?\"\n",
+    "\n",
+    "# Get the translation\n",
+    "translated_text = translation_pipeline(text_to_translate, max_length=50)\n",
+    "\n",
+    "# Print the translated text\n",
+    "print(f\"Input text: {text_to_translate}\")\n",
+    "print(f\"Translated text: {translated_text[0]['translation_text']}\")\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "bf60b33d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "2ae576686fba4b64bed12f1d3e125b6f",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Downloading pytorch_model.bin:   0%|          | 0.00/301M [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "0dd84e1267024c949f547d50389f94c4",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Downloading generation_config.json:   0%|          | 0.00/293 [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "e3c4eff9e0394d87bcc6eb423e8e653d",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Downloading tokenizer_config.json:   0%|          | 0.00/42.0 [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "ename": "ValueError",
+     "evalue": "This tokenizer cannot be instantiated. Please make sure you have `sentencepiece` installed in order to use this tokenizer.",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mValueError\u001b[0m                                Traceback (most recent call last)",
+      "Cell \u001b[1;32mIn[4], line 4\u001b[0m\n\u001b[0;32m      1\u001b[0m \u001b[38;5;28;01mfrom\u001b[39;00m \u001b[38;5;21;01mtransformers\u001b[39;00m \u001b[38;5;28;01mimport\u001b[39;00m pipeline\n\u001b[0;32m      3\u001b[0m \u001b[38;5;66;03m# Load the translation pipeline\u001b[39;00m\n\u001b[1;32m----> 4\u001b[0m translation_pipeline \u001b[38;5;241m=\u001b[39m pipeline(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mtranslation\u001b[39m\u001b[38;5;124m'\u001b[39m, model\u001b[38;5;241m=\u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mHelsinki-NLP/opus-mt-en-fr\u001b[39m\u001b[38;5;124m'\u001b[39m)\n\u001b[0;32m      6\u001b[0m \u001b[38;5;66;03m# Provide the text to translate\u001b[39;00m\n\u001b[0;32m      7\u001b[0m text_to_translate \u001b[38;5;241m=\u001b[39m \u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mHello, how are you?\u001b[39m\u001b[38;5;124m\"\u001b[39m\n",
+      "File \u001b[1;32mF:\\Users\\vaish\\anaconda3\\Lib\\site-packages\\transformers\\pipelines\\__init__.py:904\u001b[0m, in \u001b[0;36mpipeline\u001b[1;34m(task, model, config, tokenizer, feature_extractor, image_processor, framework, revision, use_fast, token, device, device_map, torch_dtype, trust_remote_code, model_kwargs, pipeline_class, **kwargs)\u001b[0m\n\u001b[0;32m    901\u001b[0m             tokenizer_kwargs \u001b[38;5;241m=\u001b[39m model_kwargs\u001b[38;5;241m.\u001b[39mcopy()\n\u001b[0;32m    902\u001b[0m             tokenizer_kwargs\u001b[38;5;241m.\u001b[39mpop(\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mtorch_dtype\u001b[39m\u001b[38;5;124m\"\u001b[39m, \u001b[38;5;28;01mNone\u001b[39;00m)\n\u001b[1;32m--> 904\u001b[0m         tokenizer \u001b[38;5;241m=\u001b[39m AutoTokenizer\u001b[38;5;241m.\u001b[39mfrom_pretrained(\n\u001b[0;32m    905\u001b[0m             tokenizer_identifier, use_fast\u001b[38;5;241m=\u001b[39muse_fast, _from_pipeline\u001b[38;5;241m=\u001b[39mtask, \u001b[38;5;241m*\u001b[39m\u001b[38;5;241m*\u001b[39mhub_kwargs, \u001b[38;5;241m*\u001b[39m\u001b[38;5;241m*\u001b[39mtokenizer_kwargs\n\u001b[0;32m    906\u001b[0m         )\n\u001b[0;32m    908\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m load_image_processor:\n\u001b[0;32m    909\u001b[0m     \u001b[38;5;66;03m# Try to infer image processor from model or config name (if provided as str)\u001b[39;00m\n\u001b[0;32m    910\u001b[0m     \u001b[38;5;28;01mif\u001b[39;00m image_processor \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n",
+      "File \u001b[1;32mF:\\Users\\vaish\\anaconda3\\Lib\\site-packages\\transformers\\models\\auto\\tokenization_auto.py:750\u001b[0m, in \u001b[0;36mAutoTokenizer.from_pretrained\u001b[1;34m(cls, pretrained_model_name_or_path, *inputs, **kwargs)\u001b[0m\n\u001b[0;32m    748\u001b[0m             \u001b[38;5;28;01mreturn\u001b[39;00m tokenizer_class_py\u001b[38;5;241m.\u001b[39mfrom_pretrained(pretrained_model_name_or_path, \u001b[38;5;241m*\u001b[39minputs, \u001b[38;5;241m*\u001b[39m\u001b[38;5;241m*\u001b[39mkwargs)\n\u001b[0;32m    749\u001b[0m         \u001b[38;5;28;01melse\u001b[39;00m:\n\u001b[1;32m--> 750\u001b[0m             \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\n\u001b[0;32m    751\u001b[0m                 \u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mThis tokenizer cannot be instantiated. Please make sure you have `sentencepiece` installed \u001b[39m\u001b[38;5;124m\"\u001b[39m\n\u001b[0;32m    752\u001b[0m                 \u001b[38;5;124m\"\u001b[39m\u001b[38;5;124min order to use this tokenizer.\u001b[39m\u001b[38;5;124m\"\u001b[39m\n\u001b[0;32m    753\u001b[0m             )\n\u001b[0;32m    755\u001b[0m \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\n\u001b[0;32m    756\u001b[0m     \u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mUnrecognized configuration class \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mconfig\u001b[38;5;241m.\u001b[39m\u001b[38;5;18m__class__\u001b[39m\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m to build an AutoTokenizer.\u001b[39m\u001b[38;5;130;01m\\n\u001b[39;00m\u001b[38;5;124m\"\u001b[39m\n\u001b[0;32m    757\u001b[0m     \u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mModel type should be one of \u001b[39m\u001b[38;5;132;01m{\u001b[39;00m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124m, \u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;241m.\u001b[39mjoin(c\u001b[38;5;241m.\u001b[39m\u001b[38;5;18m__name__\u001b[39m\u001b[38;5;250m \u001b[39m\u001b[38;5;28;01mfor\u001b[39;00m\u001b[38;5;250m \u001b[39mc\u001b[38;5;250m \u001b[39m\u001b[38;5;129;01min\u001b[39;00m\u001b[38;5;250m \u001b[39mTOKENIZER_MAPPING\u001b[38;5;241m.\u001b[39mkeys())\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m.\u001b[39m\u001b[38;5;124m\"\u001b[39m\n\u001b[0;32m    758\u001b[0m )\n",
+      "\u001b[1;31mValueError\u001b[0m: This tokenizer cannot be instantiated. Please make sure you have `sentencepiece` installed in order to use this tokenizer."
+     ]
+    }
+   ],
+   "source": [
+    "from transformers import pipeline\n",
+    "\n",
+    "# Load the translation pipeline\n",
+    "translation_pipeline = pipeline('translation', model='Helsinki-NLP/opus-mt-en-fr')\n",
+    "\n",
+    "# Provide the text to translate\n",
+    "text_to_translate = \"Hello, how are you?\"\n",
+    "\n",
+    "# Get the translation\n",
+    "translated_text = translation_pipeline(text_to_translate, max_length=50)\n",
+    "\n",
+    "# Print the translated text\n",
+    "print(f\"Input text: {text_to_translate}\")\n",
+    "print(f\"Translated text: {translated_text[0]['translation_text']}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "bf048e6b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting sentencepiece\n",
+      "  Downloading sentencepiece-0.1.99-cp311-cp311-win_amd64.whl (977 kB)\n",
+      "     ---------------------------------------- 0.0/977.5 kB ? eta -:--:--\n",
+      "     ---------------------------------------- 10.2/977.5 kB ? eta -:--:--\n",
+      "     - ----------------------------------- 30.7/977.5 kB 660.6 kB/s eta 0:00:02\n",
+      "     --- --------------------------------- 81.9/977.5 kB 762.6 kB/s eta 0:00:02\n",
+      "     ------- ------------------------------ 204.8/977.5 kB 1.4 MB/s eta 0:00:01\n",
+      "     ------------- ------------------------ 358.4/977.5 kB 1.7 MB/s eta 0:00:01\n",
+      "     ------------------ ------------------- 471.0/977.5 kB 1.8 MB/s eta 0:00:01\n",
+      "     ---------------------- --------------- 583.7/977.5 kB 2.0 MB/s eta 0:00:01\n",
+      "     --------------------------- ---------- 706.6/977.5 kB 2.0 MB/s eta 0:00:01\n",
+      "     ------------------------------- ------ 809.0/977.5 kB 2.0 MB/s eta 0:00:01\n",
+      "     ----------------------------------- -- 911.4/977.5 kB 2.1 MB/s eta 0:00:01\n",
+      "     -------------------------------------- 977.5/977.5 kB 2.0 MB/s eta 0:00:00\n",
+      "Installing collected packages: sentencepiece\n",
+      "Successfully installed sentencepiece-0.1.99\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install sentencepiece\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "a7ef1af8",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: transformers in f:\\users\\vaish\\anaconda3\\lib\\site-packages (4.32.1)\n",
+      "Collecting transformers\n",
+      "  Obtaining dependency information for transformers from https://files.pythonhosted.org/packages/12/dd/f17b11a93a9ca27728e12512d167eb1281c151c4c6881d3ab59eb58f4127/transformers-4.35.2-py3-none-any.whl.metadata\n",
+      "  Downloading transformers-4.35.2-py3-none-any.whl.metadata (123 kB)\n",
+      "     ---------------------------------------- 0.0/123.5 kB ? eta -:--:--\n",
+      "     ---------------------------------------- 0.0/123.5 kB ? eta -:--:--\n",
+      "     --- ------------------------------------ 10.2/123.5 kB ? eta -:--:--\n",
+      "     --------- --------------------------- 30.7/123.5 kB 660.6 kB/s eta 0:00:01\n",
+      "     ------------------------ ------------ 81.9/123.5 kB 657.6 kB/s eta 0:00:01\n",
+      "     -------------------------------- --- 112.6/123.5 kB 656.4 kB/s eta 0:00:01\n",
+      "     ------------------------------------ 123.5/123.5 kB 557.9 kB/s eta 0:00:00\n",
+      "Requirement already satisfied: filelock in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (3.9.0)\n",
+      "Collecting huggingface-hub<1.0,>=0.16.4 (from transformers)\n",
+      "  Obtaining dependency information for huggingface-hub<1.0,>=0.16.4 from https://files.pythonhosted.org/packages/05/09/1945ca6ba3ad8ad6e2872ba682ce8d68c5e63c8e55458ed8ab4885709f1d/huggingface_hub-0.19.4-py3-none-any.whl.metadata\n",
+      "  Downloading huggingface_hub-0.19.4-py3-none-any.whl.metadata (14 kB)\n",
+      "Requirement already satisfied: numpy>=1.17 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (1.26.2)\n",
+      "Requirement already satisfied: packaging>=20.0 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (23.1)\n",
+      "Requirement already satisfied: pyyaml>=5.1 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (6.0)\n",
+      "Requirement already satisfied: regex!=2019.12.17 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (2022.7.9)\n",
+      "Requirement already satisfied: requests in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (2.31.0)\n",
+      "Collecting tokenizers<0.19,>=0.14 (from transformers)\n",
+      "  Obtaining dependency information for tokenizers<0.19,>=0.14 from https://files.pythonhosted.org/packages/be/5f/2cc4f229bf85d90842f513be31a529595c10b8c8b8193c077230a8c17548/tokenizers-0.15.0-cp311-none-win_amd64.whl.metadata\n",
+      "  Downloading tokenizers-0.15.0-cp311-none-win_amd64.whl.metadata (6.8 kB)\n",
+      "Requirement already satisfied: safetensors>=0.3.1 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (0.3.2)\n",
+      "Requirement already satisfied: tqdm>=4.27 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from transformers) (4.65.0)\n",
+      "Collecting fsspec>=2023.5.0 (from huggingface-hub<1.0,>=0.16.4->transformers)\n",
+      "  Obtaining dependency information for fsspec>=2023.5.0 from https://files.pythonhosted.org/packages/e8/f6/3eccfb530aac90ad1301c582da228e4763f19e719ac8200752a4841b0b2d/fsspec-2023.10.0-py3-none-any.whl.metadata\n",
+      "  Downloading fsspec-2023.10.0-py3-none-any.whl.metadata (6.8 kB)\n",
+      "Requirement already satisfied: typing-extensions>=3.7.4.3 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from huggingface-hub<1.0,>=0.16.4->transformers) (4.7.1)\n",
+      "Requirement already satisfied: colorama in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from tqdm>=4.27->transformers) (0.4.6)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from requests->transformers) (2.0.4)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from requests->transformers) (3.4)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from requests->transformers) (1.26.16)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in f:\\users\\vaish\\anaconda3\\lib\\site-packages (from requests->transformers) (2023.7.22)\n",
+      "Downloading transformers-4.35.2-py3-none-any.whl (7.9 MB)\n",
+      "   ---------------------------------------- 0.0/7.9 MB ? eta -:--:--\n",
+      "   ---------------------------------------- 0.1/7.9 MB 2.6 MB/s eta 0:00:03\n",
+      "   - -------------------------------------- 0.2/7.9 MB 3.1 MB/s eta 0:00:03\n",
+      "   - -------------------------------------- 0.3/7.9 MB 2.6 MB/s eta 0:00:03\n",
+      "   -- ------------------------------------- 0.4/7.9 MB 2.8 MB/s eta 0:00:03\n",
+      "   -- ------------------------------------- 0.5/7.9 MB 2.7 MB/s eta 0:00:03\n",
+      "   --- ------------------------------------ 0.6/7.9 MB 2.7 MB/s eta 0:00:03\n",
+      "   --- ------------------------------------ 0.8/7.9 MB 2.7 MB/s eta 0:00:03\n",
+      "   ---- ----------------------------------- 0.8/7.9 MB 2.5 MB/s eta 0:00:03\n",
+      "   ---- ----------------------------------- 0.9/7.9 MB 2.5 MB/s eta 0:00:03\n",
+      "   ----- ---------------------------------- 1.1/7.9 MB 2.5 MB/s eta 0:00:03\n",
+      "   ----- ---------------------------------- 1.2/7.9 MB 2.5 MB/s eta 0:00:03\n",
+      "   ------ --------------------------------- 1.3/7.9 MB 2.5 MB/s eta 0:00:03\n",
+      "   ------- -------------------------------- 1.4/7.9 MB 2.5 MB/s eta 0:00:03\n",
+      "   ------- -------------------------------- 1.6/7.9 MB 2.6 MB/s eta 0:00:03\n",
+      "   -------- ------------------------------- 1.6/7.9 MB 2.5 MB/s eta 0:00:03\n",
+      "   -------- ------------------------------- 1.7/7.9 MB 2.5 MB/s eta 0:00:03\n",
+      "   --------- ------------------------------ 1.8/7.9 MB 2.4 MB/s eta 0:00:03\n",
+      "   --------- ------------------------------ 1.9/7.9 MB 2.4 MB/s eta 0:00:03\n",
+      "   --------- ------------------------------ 2.0/7.9 MB 2.3 MB/s eta 0:00:03\n",
+      "   ---------- ----------------------------- 2.0/7.9 MB 2.3 MB/s eta 0:00:03\n",
+      "   ---------- ----------------------------- 2.2/7.9 MB 2.3 MB/s eta 0:00:03\n",
+      "   ----------- ---------------------------- 2.2/7.9 MB 2.3 MB/s eta 0:00:03\n",
+      "   ----------- ---------------------------- 2.3/7.9 MB 2.3 MB/s eta 0:00:03\n",
+      "   ----------- ---------------------------- 2.4/7.9 MB 2.2 MB/s eta 0:00:03\n",
+      "   ----------- ---------------------------- 2.4/7.9 MB 2.2 MB/s eta 0:00:03\n",
+      "   ------------ --------------------------- 2.5/7.9 MB 2.1 MB/s eta 0:00:03\n",
+      "   ------------- -------------------------- 2.6/7.9 MB 2.1 MB/s eta 0:00:03\n",
+      "   ------------- -------------------------- 2.7/7.9 MB 2.1 MB/s eta 0:00:03\n",
+      "   -------------- ------------------------- 2.8/7.9 MB 2.1 MB/s eta 0:00:03\n",
+      "   -------------- ------------------------- 2.9/7.9 MB 2.1 MB/s eta 0:00:03\n",
+      "   -------------- ------------------------- 2.9/7.9 MB 2.1 MB/s eta 0:00:03\n",
+      "   --------------- ------------------------ 3.0/7.9 MB 2.1 MB/s eta 0:00:03\n",
+      "   --------------- ------------------------ 3.0/7.9 MB 2.0 MB/s eta 0:00:03\n",
+      "   --------------- ------------------------ 3.1/7.9 MB 2.0 MB/s eta 0:00:03\n",
+      "   ---------------- ----------------------- 3.2/7.9 MB 2.0 MB/s eta 0:00:03\n",
+      "   ---------------- ----------------------- 3.2/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ---------------- ----------------------- 3.3/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ---------------- ----------------------- 3.3/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ----------------- ---------------------- 3.4/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ----------------- ---------------------- 3.4/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ----------------- ---------------------- 3.4/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ----------------- ---------------------- 3.4/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ----------------- ---------------------- 3.4/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ----------------- ---------------------- 3.4/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ----------------- ---------------------- 3.4/7.9 MB 1.9 MB/s eta 0:00:03\n",
+      "   ------------------ --------------------- 3.7/7.9 MB 1.8 MB/s eta 0:00:03\n",
+      "   ------------------ --------------------- 3.7/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   ------------------- -------------------- 3.8/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   ------------------- -------------------- 3.9/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   ------------------- -------------------- 3.9/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   -------------------- ------------------- 4.0/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   -------------------- ------------------- 4.1/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   -------------------- ------------------- 4.2/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   --------------------- ------------------ 4.2/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   --------------------- ------------------ 4.3/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   ---------------------- ----------------- 4.4/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   ---------------------- ----------------- 4.4/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   ---------------------- ----------------- 4.5/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   ---------------------- ----------------- 4.5/7.9 MB 1.7 MB/s eta 0:00:03\n",
+      "   ---------------------- ----------------- 4.5/7.9 MB 1.6 MB/s eta 0:00:03\n",
+      "   ----------------------- ---------------- 4.6/7.9 MB 1.6 MB/s eta 0:00:03\n",
+      "   ----------------------- ---------------- 4.6/7.9 MB 1.6 MB/s eta 0:00:03\n",
+      "   ----------------------- ---------------- 4.6/7.9 MB 1.6 MB/s eta 0:00:03\n",
+      "   ----------------------- ---------------- 4.6/7.9 MB 1.6 MB/s eta 0:00:03\n",
+      "   ----------------------- ---------------- 4.6/7.9 MB 1.6 MB/s eta 0:00:03\n",
+      "   ----------------------- ---------------- 4.6/7.9 MB 1.6 MB/s eta 0:00:03\n",
+      "   ----------------------- ---------------- 4.6/7.9 MB 1.5 MB/s eta 0:00:03\n",
+      "   ------------------------ --------------- 4.8/7.9 MB 1.5 MB/s eta 0:00:03\n",
+      "   ------------------------ --------------- 4.9/7.9 MB 1.5 MB/s eta 0:00:03\n",
+      "   ------------------------ --------------- 4.9/7.9 MB 1.5 MB/s eta 0:00:03\n",
+      "   ------------------------ --------------- 4.9/7.9 MB 1.5 MB/s eta 0:00:03\n",
+      "   ------------------------- -------------- 5.0/7.9 MB 1.5 MB/s eta 0:00:02\n",
+      "   ------------------------- -------------- 5.0/7.9 MB 1.5 MB/s eta 0:00:02\n",
+      "   ------------------------- -------------- 5.0/7.9 MB 1.5 MB/s eta 0:00:02\n",
+      "   ------------------------- -------------- 5.1/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   ------------------------- -------------- 5.1/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   ------------------------- -------------- 5.1/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   ------------------------- -------------- 5.1/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   ------------------------- -------------- 5.1/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   -------------------------- ------------- 5.3/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   -------------------------- ------------- 5.3/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   --------------------------- ------------ 5.4/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   --------------------------- ------------ 5.4/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   --------------------------- ------------ 5.4/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   --------------------------- ------------ 5.5/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   --------------------------- ------------ 5.5/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   ---------------------------- ----------- 5.6/7.9 MB 1.4 MB/s eta 0:00:02\n",
+      "   ---------------------------- ----------- 5.6/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ---------------------------- ----------- 5.6/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ---------------------------- ----------- 5.6/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ---------------------------- ----------- 5.7/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ---------------------------- ----------- 5.7/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ----------------------------- ---------- 5.8/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ----------------------------- ---------- 5.9/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ----------------------------- ---------- 5.9/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.0/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.0/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------ --------- 6.1/7.9 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------------------------- -------- 6.3/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   ------------------------------- -------- 6.3/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   -------------------------------- ------- 6.4/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   -------------------------------- ------- 6.4/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   -------------------------------- ------- 6.4/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   -------------------------------- ------- 6.5/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   -------------------------------- ------- 6.5/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.5/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.5/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.6/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.6/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.6/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------------------------- ------ 6.7/7.9 MB 1.2 MB/s eta 0:00:02\n",
+      "   ---------------------------------- ----- 6.7/7.9 MB 1.0 MB/s eta 0:00:02\n",
+      "   ---------------------------------- ----- 6.8/7.9 MB 1.0 MB/s eta 0:00:02\n",
+      "   ---------------------------------- ----- 6.8/7.9 MB 1.0 MB/s eta 0:00:02\n",
+      "   ---------------------------------- ----- 6.8/7.9 MB 1.0 MB/s eta 0:00:02\n",
+      "   ---------------------------------- ----- 6.9/7.9 MB 1.0 MB/s eta 0:00:02\n",
+      "   ---------------------------------- ----- 6.9/7.9 MB 1.0 MB/s eta 0:00:02\n",
+      "   ----------------------------------- ---- 6.9/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ----------------------------------- ---- 7.0/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ----------------------------------- ---- 7.0/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ----------------------------------- ---- 7.1/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ----------------------------------- ---- 7.1/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------------------ --- 7.1/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------------------ --- 7.2/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------------------ --- 7.2/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------------------ --- 7.3/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------------------- -- 7.3/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------------------- -- 7.4/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------------------- -- 7.5/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   -------------------------------------- - 7.5/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   -------------------------------------- - 7.6/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   -------------------------------------- - 7.7/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ---------------------------------------  7.8/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ---------------------------------------  7.8/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ---------------------------------------  7.8/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ---------------------------------------  7.9/7.9 MB 1.0 MB/s eta 0:00:01\n",
+      "   ---------------------------------------- 7.9/7.9 MB 1.0 MB/s eta 0:00:00\n",
+      "Downloading huggingface_hub-0.19.4-py3-none-any.whl (311 kB)\n",
+      "   ---------------------------------------- 0.0/311.7 kB ? eta -:--:--\n",
+      "   ----- ---------------------------------- 41.0/311.7 kB 1.9 MB/s eta 0:00:01\n",
+      "   ---------- ----------------------------- 81.9/311.7 kB 1.5 MB/s eta 0:00:01\n",
+      "   --------------------- ------------------ 163.8/311.7 kB 1.4 MB/s eta 0:00:01\n",
+      "   -------------------------- ------------- 204.8/311.7 kB 1.1 MB/s eta 0:00:01\n",
+      "   ------------------------------------ --- 286.7/311.7 kB 1.4 MB/s eta 0:00:01\n",
+      "   ---------------------------------------- 311.7/311.7 kB 1.3 MB/s eta 0:00:00\n",
+      "Downloading tokenizers-0.15.0-cp311-none-win_amd64.whl (2.2 MB)\n",
+      "   ---------------------------------------- 0.0/2.2 MB ? eta -:--:--\n",
+      "   - -------------------------------------- 0.1/2.2 MB 1.7 MB/s eta 0:00:02\n",
+      "   --- ------------------------------------ 0.2/2.2 MB 2.1 MB/s eta 0:00:01\n",
+      "   ---- ----------------------------------- 0.2/2.2 MB 2.0 MB/s eta 0:00:02\n",
+      "   ----- ---------------------------------- 0.3/2.2 MB 1.5 MB/s eta 0:00:02\n",
+      "   ----- ---------------------------------- 0.3/2.2 MB 1.4 MB/s eta 0:00:02\n",
+      "   ------- -------------------------------- 0.4/2.2 MB 1.3 MB/s eta 0:00:02\n",
+      "   -------- ------------------------------- 0.5/2.2 MB 1.3 MB/s eta 0:00:02\n",
+      "   --------- ------------------------------ 0.5/2.2 MB 1.3 MB/s eta 0:00:02\n",
+      "   ---------- ----------------------------- 0.6/2.2 MB 1.3 MB/s eta 0:00:02\n",
+      "   ----------- ---------------------------- 0.6/2.2 MB 1.3 MB/s eta 0:00:02\n",
+      "   ----------- ---------------------------- 0.7/2.2 MB 1.3 MB/s eta 0:00:02\n",
+      "   ------------ --------------------------- 0.7/2.2 MB 1.2 MB/s eta 0:00:02\n",
+      "   ------------- -------------------------- 0.8/2.2 MB 1.2 MB/s eta 0:00:02\n",
+      "   --------------- ------------------------ 0.8/2.2 MB 1.2 MB/s eta 0:00:02\n",
+      "   ---------------- ----------------------- 0.9/2.2 MB 1.2 MB/s eta 0:00:02\n",
+      "   ----------------- ---------------------- 1.0/2.2 MB 1.3 MB/s eta 0:00:01\n",
+      "   ------------------ --------------------- 1.0/2.2 MB 1.2 MB/s eta 0:00:01\n",
+      "   ------------------- -------------------- 1.1/2.2 MB 1.2 MB/s eta 0:00:01\n",
+      "   ------------------- -------------------- 1.1/2.2 MB 1.2 MB/s eta 0:00:01\n",
+      "   -------------------- ------------------- 1.1/2.2 MB 1.2 MB/s eta 0:00:01\n",
+      "   --------------------- ------------------ 1.2/2.2 MB 1.2 MB/s eta 0:00:01\n",
+      "   --------------------- ------------------ 1.2/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ---------------------- ----------------- 1.2/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ---------------------- ----------------- 1.2/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ----------------------- ---------------- 1.3/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ----------------------- ---------------- 1.3/2.2 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------ --------------- 1.3/2.2 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------ --------------- 1.4/2.2 MB 998.1 kB/s eta 0:00:01\n",
+      "   ------------------------ --------------- 1.4/2.2 MB 1.0 MB/s eta 0:00:01\n",
+      "   -------------------------- ------------- 1.4/2.2 MB 990.5 kB/s eta 0:00:01\n",
+      "   --------------------------- ------------ 1.5/2.2 MB 1.0 MB/s eta 0:00:01\n",
+      "   --------------------------- ------------ 1.5/2.2 MB 1.0 MB/s eta 0:00:01\n",
+      "   ----------------------------- ---------- 1.6/2.2 MB 1.0 MB/s eta 0:00:01\n",
+      "   ------------------------------ --------- 1.7/2.2 MB 1.0 MB/s eta 0:00:01\n",
+      "   -------------------------------- ------- 1.8/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   --------------------------------- ------ 1.8/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ---------------------------------- ----- 1.9/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ----------------------------------- ---- 1.9/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ------------------------------------ --- 2.0/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   -------------------------------------- - 2.1/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ---------------------------------------  2.2/2.2 MB 1.1 MB/s eta 0:00:01\n",
+      "   ---------------------------------------- 2.2/2.2 MB 1.1 MB/s eta 0:00:00\n",
+      "Downloading fsspec-2023.10.0-py3-none-any.whl (166 kB)\n",
+      "   ---------------------------------------- 0.0/166.4 kB ? eta -:--:--\n",
+      "   ------- -------------------------------- 30.7/166.4 kB 1.3 MB/s eta 0:00:01\n",
+      "   ------------------- -------------------- 81.9/166.4 kB 1.1 MB/s eta 0:00:01\n",
+      "   ---------------------------------- ----- 143.4/166.4 kB 1.2 MB/s eta 0:00:01\n",
+      "   ---------------------------------------- 166.4/166.4 kB 1.1 MB/s eta 0:00:00\n",
+      "Installing collected packages: fsspec, huggingface-hub, tokenizers, transformers\n",
+      "  Attempting uninstall: fsspec\n",
+      "    Found existing installation: fsspec 2023.4.0\n",
+      "    Uninstalling fsspec-2023.4.0:\n",
+      "      Successfully uninstalled fsspec-2023.4.0\n",
+      "  Attempting uninstall: huggingface-hub\n",
+      "    Found existing installation: huggingface-hub 0.15.1\n",
+      "    Uninstalling huggingface-hub-0.15.1:\n",
+      "      Successfully uninstalled huggingface-hub-0.15.1\n",
+      "  Attempting uninstall: tokenizers\n",
+      "    Found existing installation: tokenizers 0.13.2\n",
+      "    Uninstalling tokenizers-0.13.2:\n",
+      "      Successfully uninstalled tokenizers-0.13.2\n",
+      "  Attempting uninstall: transformers\n",
+      "    Found existing installation: transformers 4.32.1\n",
+      "    Uninstalling transformers-4.32.1:\n",
+      "      Successfully uninstalled transformers-4.32.1\n",
+      "Successfully installed fsspec-2023.10.0 huggingface-hub-0.19.4 tokenizers-0.15.0 transformers-4.35.2\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.\n",
+      "s3fs 2023.4.0 requires fsspec==2023.4.0, but you have fsspec 2023.10.0 which is incompatible.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install --upgrade transformers\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "6de703cd",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "WARNING:tensorflow:From F:\\Users\\vaish\\anaconda3\\Lib\\site-packages\\keras\\src\\losses.py:2976: The name tf.losses.sparse_softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.sparse_softmax_cross_entropy instead.\n",
+      "\n"
+     ]
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "e508aec1b64f40929ca49b573606076f",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "source.spm:   0%|          | 0.00/778k [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "F:\\Users\\vaish\\anaconda3\\Lib\\site-packages\\huggingface_hub\\file_download.py:147: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\\Users\\vaish\\.cache\\huggingface\\hub. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.\n",
+      "To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to see activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development\n",
+      "  warnings.warn(message)\n"
+     ]
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "6f7a4909c6344e649e6eba6ec3043969",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "target.spm:   0%|          | 0.00/802k [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "0dd152a801c24b538472be3748acf20d",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "vocab.json:   0%|          | 0.00/1.34M [00:00<?, ?B/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "F:\\Users\\vaish\\anaconda3\\Lib\\site-packages\\transformers\\models\\marian\\tokenization_marian.py:197: UserWarning: Recommended: pip install sacremoses.\n",
+      "  warnings.warn(\"Recommended: pip install sacremoses.\")\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Input text: Hello, how are you?\n",
+      "Translated text: Bonjour, comment allez-vous ?\n"
+     ]
+    }
+   ],
+   "source": [
+    "from transformers import pipeline\n",
+    "\n",
+    "# Load the translation pipeline\n",
+    "translation_pipeline = pipeline('translation', model='Helsinki-NLP/opus-mt-en-fr')\n",
+    "\n",
+    "# Provide the text to translate\n",
+    "text_to_translate = \"Hello, how are you?\"\n",
+    "\n",
+    "# Get the translation\n",
+    "translated_text = translation_pipeline(text_to_translate, max_length=50)\n",
+    "\n",
+    "# Print the translated text\n",
+    "print(f\"Input text: {text_to_translate}\")\n",
+    "print(f\"Translated text: {translated_text[0]['translation_text']}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9e59502b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
